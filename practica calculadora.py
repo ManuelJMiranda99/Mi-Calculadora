@@ -42,6 +42,7 @@ def Retroceder():
 	reset_pantalla=True
 	numeroPantalla.set(numeroPantalla.get()[:-1])
 	
+	
 #--------------------funcion retroceder---------------------------
 
 def Borrar():
@@ -51,20 +52,10 @@ def Borrar():
 	reset_pantalla=True
 	numeroPantalla.set(resultado)
 	
-#--------------------funcion seno---------------------------------
-def seno(num):
-
-	global operacion
-	global resultado
-
-    resultado = sin(float(num))
-   	operacion = "seno"
-   	reset_pantalla = True
- 	numeroPantalla.set(resultado)
 
 #--------------------funcion raiz---------------------------------
 contador_raiz=0
-def RaizCuadrada(num):
+def RaizCuadrada():
 
 	global resultado
 	global operacion
@@ -72,20 +63,23 @@ def RaizCuadrada(num):
 	global contador_raiz
 	global num1
 
-	import math
-
-	if contador_raiz==0:
+	if contador_cuadrado==0:
 		num=float(num1)
 		resultado=num1
 	else:
-		if contador_raiz==1:
-			resultado=math.sqrt(float(num))
+		try:
+			if contador_cuadrado==1:
+				resultado=sqrt(float(num))
 
-		else:
-			resultado=math.sqrt(float(resultado))
+			else:
+				resultado=sqrt(float(resultado))
+		except:
+			Borrar()
+			resultado="error"
+			numeroPantalla.set(resultado)
 
-		numeroPantalla.set(resultado)
-		resultado=numeroPantalla.get()
+	numeroPantalla.set(resultado)
+	resultado=numeroPantalla.get()
 
 	contador_raiz+=1
 	operacion="RaizCuadrada"
@@ -94,7 +88,7 @@ def RaizCuadrada(num):
 #--------------------funcion cuadraro---------------------------------
 contador_cuadrado=0
 
-def Cuadrado(num):
+def Cuadrado():
 
 	global resultado
 	global operacion
@@ -203,7 +197,7 @@ def divide(num):
 				resultado=float(resultado)/float(num)
 			numeroPantalla.set(resultado)
 			resultado=numeroPantalla.get()
-		except ZeroDivisionError:
+		except:
 			Borrar()
 			resultado="error"
 			numeroPantalla.set(resultado)
@@ -239,7 +233,12 @@ def el_resultado():
 		contador_multi=0
 
 	elif operacion=="divide":
-		numeroPantalla.set(float(resultado)/float(numeroPantalla.get()))
+		try:
+			numeroPantalla.set(float(resultado)/float(numeroPantalla.get()))
+		except:
+			Borrar()
+			resultado="error"	
+			numeroPantalla.set(resultado)
 		resultado=0
 		contador_divi=0
 
@@ -249,23 +248,20 @@ def el_resultado():
 		contador_cuadrado=0
 
 	elif operacion=="RaizCuadrada":
-		numeroPantalla.set(math.sqrt(float(numeroPantalla.get())))
+		numeroPantalla.set(sqrt(float(numeroPantalla.get())))
 		resultado=0
 		contador_raiz=0
 
 #--------------------fila 0---------------------------------------
 
-botonBorrar=Button(miFrame, text="CE", width=3, command=lambda:Borrar)
+botonBorrar=Button(miFrame, text="CE", width=3, command=lambda:Borrar())
 botonBorrar.grid(row=2, column=1)
-botonRetrocede=Button(miFrame, text="<--", width=3, command=lambda:Retroceder)
+botonRetrocede=Button(miFrame, text="<--", width=3, command=lambda:Retroceder())
 botonRetrocede.grid(row=2,column=2)
-botonCuadrado=Button(miFrame, text="x²", width=3, command=lambda:Cuadrado)
+botonCuadrado=Button(miFrame, text="x²", width=3, command=lambda:Cuadrado())
 botonCuadrado.grid(row=2, column=3)
-botonRaiz=Button(miFrame, text="√", width=3, command=lambda:RaizCuadrada)
+botonRaiz=Button(miFrame, text="√", width=3, command=lambda:RaizCuadrada())
 botonRaiz.grid(row=2, column=4)
-botonSeno=Button(miFrame, text="sin", width=3, command=lambda:seno(numeroPantalla.get()))
-botonSeno.grid(row=2, column=5)
-
 
 #--------------------fila 1---------------------------------------
 
@@ -289,7 +285,6 @@ boton6.grid(row=4, column=3)
 botonMult=Button(miFrame, text="X", width=3, command=lambda:multiplica(numeroPantalla.get()))
 botonMult.grid(row=4, column=4)
 
-
 #--------------------fila 3---------------------------------------
 
 boton1=Button(miFrame, text="1", width=3, command=lambda:numeroPulsado("1"))
@@ -305,7 +300,7 @@ botonRest.grid(row=5, column=4)
 
 boton0=Button(miFrame, text="0", width=3, command=lambda:numeroPulsado("0"))
 boton0.grid(row=6, column=1)
-botonComa=Button(miFrame, text=",", width=3, command=lambda:numeroPulsado(","))
+botonComa=Button(miFrame, text=".", width=3, command=lambda:numeroPulsado("."))
 botonComa.grid(row=6, column=2)
 botonIgual=Button(miFrame, text="=", width=3, command=lambda:el_resultado())
 botonIgual.grid(row=6, column=3)
